@@ -51,7 +51,7 @@ $dependencies\n\tinstall all dependencies
         print(style.BLUE+"[?]path to file for crypt",end="")
         print(style.VIOLET+">>> ",end="")
         file_crypt = str(input(style.CYAN))
-        file_crypt[1] = file_crypt[0].split('/')[-1]
+        file_crypt_name = file_crypt[file_crypt.rfind("\\")+1:]
         print(style.BLUE+"[?]name of build",end="")
         print(style.VIOLET+">>> ",end="")
         name = str(input(style.CYAN))
@@ -59,18 +59,15 @@ $dependencies\n\tinstall all dependencies
         print(style.VIOLET+">>> ",end="")
         icon = str(input(style.CYAN))
         input(style.YELLOW+"[i]press enter to start")
+        print(style.GREY)
 
         key = Fernet.generate_key()
         f = Fernet(key)
-
-        with open(file_crypt[0], 'rb') as file:
+        with open(file_crypt, 'rb') as file:
             file_data = file.read()
-
-        encrypted_data = f.encrypt(file_data)
-        
-        new_name = f.encrypt(file_crypt[1].encode())
-
-        with open(f"enc_{file_crypt[1]}", 'wb') as file:
+        encrypted_data = f.encrypt(file_data) 
+        new_name = f.encrypt(file_crypt_name.encode())
+        with open(f"enc_{file_crypt_name}", 'wb') as file:
             file.write(encrypted_data)
 
         code = fr'''
@@ -111,7 +108,7 @@ pyarmor gen "{name}.py" >> log.txt
 echo Progress: [10%%]
 cd dist >> log.txt
 echo Progress: [40%%]
-pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt[1]};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py" >> log.txt
+pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py" >> log.txt
 cd dist >> log.txt
 echo Progress: [80%%]
 mkdir ..\..\build\ >> log.txt
@@ -119,23 +116,23 @@ move "{name}.exe" ../../build >> log.txt
 cd ../../ >> log.txt
 RD /s /q dist >> log.txt
 RD /s /q __pycache__ >> log.txt
-del /s /q "enc_{file_crypt[1]}" >> log.txt
+del /s /q "enc_{file_crypt_name}" >> log.txt
 del /s /q "{name}.py" >> log.txt
 del /s /q "{name}.bat" >> log.txt
 echo "Progress: [100%%]"
 echo "The scripted build file is located in the build/ folder"
 pause'''
-
         with open(f"{name}.py", 'w', encoding='utf-8') as f:
             f.write(code)
-
         with open(f"{name}.bat", 'w', encoding='utf-8') as f:
             f.write(batCode)
-
         f = open("log.txt", 'w', encoding='utf-8')
         f.close()
-
         os.startfile(f"{name}.bat")
+        os.remove("log.txt")
+        input(style.GREEN+"[i]if crypting end...press enter")
+        os.system("cls")
+        VineShield()
 
 
 
@@ -143,6 +140,8 @@ class VineShield:
     def __init__(self) -> None:
         self.Menu()
     def Menu(self) -> None:
+        cmd = 'mode 65,30'
+        os.system(cmd)
         logo = ''' __      __ _                _____  _      _        _      _ 
  \ \    / /(_)              / ____|| |    (_)      | |    | |
   \ \  / /  _  _ __    ___ | (___  | |__   _   ___ | |  __| |

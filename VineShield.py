@@ -10,3 +10,6 @@ by Nick-Vinesmoke
 github: https://github.com/Nick-Vinesmoke
 original: 
 '''
+
+if __name__ == "__main__":
+    print("VineShield")

@@ -13,6 +13,7 @@ original: https://github.com/Nick-Vinesmoke/VineShield
 import os
 from getpass import getuser
 import webbrowser
+from cryptography.fernet import Fernet
 
 class style():
     BLACK = '\033[30m'
@@ -49,7 +50,8 @@ $dependencies\n\tinstall all dependencies
     def Crypt():
         print(style.BLUE+"[?]path to file for crypt",end="")
         print(style.VIOLET+">>> ",end="")
-        file = str(input(style.CYAN))
+        file_crypt = str(input(style.CYAN))
+        file_crypt[1] = file_crypt[0].split('/')[-1]
         print(style.BLUE+"[?]name of build",end="")
         print(style.VIOLET+">>> ",end="")
         name = str(input(style.CYAN))
@@ -57,6 +59,8 @@ $dependencies\n\tinstall all dependencies
         print(style.VIOLET+">>> ",end="")
         icon = str(input(style.CYAN))
         input(style.YELLOW+"[i]press enter to start")
+
+
 
 class VineShield:
     def __init__(self) -> None:

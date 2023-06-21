@@ -1,5 +1,5 @@
 <a id ="up"></a>
-![logo](images/logo.png)
+![logo](Images/logo.png)
 ```
                        __      __ _                _____  _      _        _      _ 
                        \ \    / /(_)              / ____|| |    (_)      | |    | |
@@ -13,9 +13,9 @@
  ---
  ### 🖼Overview
 
- ![img](images/Screenshot_1.png)
+ ![img](Images/Screenshot_1.png)
 
- ![img](images/Screenshot_2.png)
+ ![img](Images/Screenshot_2.png)
 
 ---
  ### ⚙Result after crypt

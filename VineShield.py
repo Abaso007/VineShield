@@ -97,28 +97,28 @@ os.system(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\updater_" + 
 '''
         
         batCode = fr'''
-@echo off >> log.txt
-chcp 65001 >> log.txt
-color 2 >> log.txt
-setlocal enabledelayedexpansion >> log.txt
-set progress=0 >> log.txt
-set max=100 >> log.txt
+@echo off  
+chcp 65001  
+color 2  
+setlocal enabledelayedexpansion  
+set progress=0  
+set max=100  
 echo Progress: [0%%]
-pyarmor gen "{name}.py" >> log.txt
+pyarmor gen "{name}.py"  
 echo Progress: [10%%]
-cd dist >> log.txt
+cd dist  
 echo Progress: [40%%]
-pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py" >> log.txt
-cd dist >> log.txt
+pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  
+cd dist  
 echo Progress: [80%%]
-mkdir ..\..\build\ >> log.txt
-move "{name}.exe" ../../build >> log.txt
-cd ../../ >> log.txt
-RD /s /q dist >> log.txt
-RD /s /q __pycache__ >> log.txt
-del /s /q "enc_{file_crypt_name}" >> log.txt
-del /s /q "{name}.py" >> log.txt
-del /s /q "{name}.bat" >> log.txt
+mkdir ..\..\build\  
+move "{name}.exe" ../../build  
+cd ../../  
+RD /s /q dist  
+RD /s /q __pycache__  
+del /s /q "enc_{file_crypt_name}"  
+del /s /q "{name}.py"  
+del /s /q "{name}.bat"  
 echo "Progress: [100%%]"
 echo "The scripted build file is located in the build/ folder"
 pause'''
@@ -126,10 +126,7 @@ pause'''
             f.write(code)
         with open(f"{name}.bat", 'w', encoding='utf-8') as f:
             f.write(batCode)
-        f = open("log.txt", 'w', encoding='utf-8')
-        f.close()
         os.startfile(f"{name}.bat")
-        os.remove("log.txt")
         input(style.GREEN+"[i]if crypting end...press enter")
         os.system("cls")
         VineShield()

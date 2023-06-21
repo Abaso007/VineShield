@@ -45,6 +45,18 @@ $dependencies\n\tinstall all dependencies
 
     def Dependencies():
         os.system('''start /wait cmd /c pip install pyinstaller pip install cryptography''')
+    
+    def Crypt():
+        print(style.BLUE+"[?]path to file for crypt",end="")
+        print(style.VIOLET+">>> ",end="")
+        file = str(input(style.CYAN))
+        print(style.BLUE+"[?]name of build",end="")
+        print(style.VIOLET+">>> ",end="")
+        name = str(input(style.CYAN))
+        print(style.BLUE+"[?]path to icon or none",end="")
+        print(style.VIOLET+">>> ",end="")
+        icon = str(input(style.CYAN))
+        input(style.YELLOW+"[i]press enter to start")
 
 class VineShield:
     def __init__(self) -> None:
@@ -80,7 +92,7 @@ class VineShield:
                 case "author":
                     Funcs.Author()
                 case "crypt":
-                    pass
+                    Funcs.Crypt()
                 case  "dependencies":
                     Funcs.Dependencies()
                 case _:

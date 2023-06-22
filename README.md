@@ -8,7 +8,7 @@
                           \  /   | || | | ||  __/ ____) || | | || ||  __/| || (_| |
                            \/    |_||_| |_| \___||_____/ |_| |_||_| \___||_| \__,_|
 ```
- 🛡Obfuscation tool for all executing files and scripts writen on python 3
+ 🛡Obfuscation tool for all executing files and scripts written on python 3
  <p>
  <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue">
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">

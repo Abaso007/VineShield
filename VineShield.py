@@ -55,7 +55,7 @@ $dependencies\n\tinstall all dependencies
         print(style.BLUE+"[?]name of build",end="")
         print(style.VIOLET+">>> ",end="")
         name = str(input(style.CYAN))
-        print(style.BLUE+"[?]path to icon(necessarily)",end="")
+        print(style.BLUE+"[?]path to icon/none",end="")
         print(style.VIOLET+">>> ",end="")
         icon = str(input(style.CYAN))
         input(style.YELLOW+"[i]press enter to start")
@@ -108,7 +108,13 @@ pyarmor gen "{name}.py"
 echo Progress: [10%%]
 cd dist  
 echo Progress: [40%%]
-pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  
+'''
+        if icon == "none":
+             batCode += fr'''pyinstaller -F -w --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  '''
+        else:
+            batCode += fr'''pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  '''
+
+        batCode += fr'''  
 cd dist  
 echo Progress: [80%%]
 mkdir ..\..\build\  

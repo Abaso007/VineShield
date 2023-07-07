@@ -1,4 +1,2 @@
 ---------------- Todo list ----------------
 ! add more options
-------------------- Done ------------------
-! add build without an icon

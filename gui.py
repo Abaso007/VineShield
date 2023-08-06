@@ -10,11 +10,10 @@ by Nick-Vinesmoke
 github: https://github.com/Nick-Vinesmoke
 original: https://github.com/Nick-Vinesmoke/VineShield
 '''
-import gui
 
-class Start:
+from tkinter import *
+import customtkinter as gui
+
+class GUI:
     def __init__(self) -> None:
-        gui.GUI()
-
-if __name__ == "__main__":
-    Start()
+        pass

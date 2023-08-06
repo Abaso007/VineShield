@@ -19,7 +19,15 @@ class GUI:
         self.Menu()
 
     def WinConfig(self) -> None:
-        self.win.overrideredirect(1)
+        #self.win.overrideredirect(1)
+        self.win.geometry("500x600+560+240")  
+        self.win.minsize(500,400)
+        self.win.title("VineShield") 
+        self.win.resizable(False, False)  
+        self.win.configure(fg_color="#242424")
+        self.win.iconbitmap('icon.ico')  
+        gui.set_appearance_mode('dark')
+        gui.set_default_color_theme('transparent-theme.json')
 
     def Menu(self) -> None:
 

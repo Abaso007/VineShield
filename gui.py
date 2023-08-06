@@ -13,13 +13,14 @@ original: https://github.com/Nick-Vinesmoke/VineShield
 
 from tkinter import *
 import customtkinter as gui
+from ctypes import windll, byref, sizeof, c_int
+import os
 
 class GUI:
     def __init__(self) -> None:
         self.Menu()
 
     def WinConfig(self) -> None:
-        #self.win.overrideredirect(1)
         self.win.geometry("500x600+560+240")  
         self.win.minsize(500,400)
         self.win.title("VineShield") 
@@ -28,6 +29,9 @@ class GUI:
         self.win.iconbitmap('icon.ico')  
         gui.set_appearance_mode('dark')
         gui.set_default_color_theme('transparent-theme.json')
+        #self.HWND = windll.user32.GetParent(self.win.winfo_id())
+        #barCol = 0x000000FF
+        #windll.dwmapi.DwmSetWindowAttribute(self.HWND, 35, byref(c_int(barCol)), sizeof(c_int))
 
     def Menu(self) -> None:
 

@@ -16,4 +16,15 @@ import customtkinter as gui
 
 class GUI:
     def __init__(self) -> None:
-        pass
+        self.Menu()
+
+    def WinConfig(self) -> None:
+        self.win.overrideredirect(1)
+
+    def Menu(self) -> None:
+
+        self.win = gui.CTk()
+
+        self.WinConfig()
+
+        self.win.mainloop()

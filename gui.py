@@ -36,11 +36,11 @@ class GUI:
         #windll.dwmapi.DwmSetWindowAttribute(self.HWND, 35, byref(c_int(barCol)), sizeof(c_int))
     
     def Widgets(self):
-        gitimage = gui.CTkImage(light_image=Image.open("git1.png"),dark_image=Image.open("git.png"),size=(30, 30))
+        gitimage = gui.CTkImage(light_image=Image.open("img_files/git1.png"),dark_image=Image.open("img_files/git.png"),size=(30, 30))
         gitbut = gui.CTkButton(master=self.win,text = '',image=gitimage,font=('Arial Rounded MT bold', 18),width = 1,command=self.Git,corner_radius = 8)
         gitbut.place(x=230, y= 5)
 
-        disimage = gui.CTkImage(light_image=Image.open("discord1.png"),dark_image=Image.open("discord.png"),size=(30, 25))
+        disimage = gui.CTkImage(light_image=Image.open("img_files/discord1.png"),dark_image=Image.open("img_files/discord.png"),size=(30, 25))
         disbut = gui.CTkButton(master=self.win,text = '',image=disimage,font=('Arial Rounded MT bold', 18),width = 1, height=40,command=self.Discord,corner_radius = 8)
         disbut.place(x=230, y=60)
 
@@ -73,7 +73,7 @@ class GUI:
         frame.place(x=-45, y=-20)
         canvas = gui.CTkCanvas(master=self.win,width=256, height=128, background='white', highlightthickness=0)
         canvas.place(x=0, y=0)
-        image = Image.open("logo.png")
+        image = Image.open("img_files/logo.png")
         image = image.resize((256, 128))
         image = ImageTk.PhotoImage(image)
         canvas.create_image(128, 64, image=image)

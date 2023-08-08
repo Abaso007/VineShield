@@ -17,10 +17,11 @@ from PIL import ImageTk, Image
 import webbrowser
 from tkinter import filedialog
 #from ctypes import windll, byref, sizeof, c_int
-#import os
+import os
 
 class GUI:
-    def __init__(self, theme = 'themes/theme.json', mode = 'dark') -> None:
+    def __init__(self, theme = 'themes/theme.json', mode = 'dark', geometry = "500x600+560+240") -> None:
+        self.geometry = geometry
         self.theme = theme
         if self.theme == 'themes/theme.json':
             self.varTheme = 'transparent'
@@ -30,7 +31,7 @@ class GUI:
         self.Menu()
 
     def WinConfig(self) -> None:
-        self.win.geometry("500x600+560+240")  
+        self.win.geometry(self.geometry)  
         self.win.minsize(500,400)
         self.win.title("VineShield") 
         self.win.resizable(False, False)  
@@ -80,8 +81,68 @@ class GUI:
         fileName = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], placeholder_text= 'output file name')
         fileName.place(x= 100, y= 210)
 
+        deps = gui.CTkFrame(master=self.win, width=260, height=130, corner_radius= 25, border_width=2)
+        deps.place(x= 0, y= 260)
+        
+        header2 = gui.CTkLabel(master=self.win, text = "Dependencies", font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        header2.place(x= 13, y= 265)
+
+        install = gui.CTkButton(master = self.win, text= "install deps",font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command=self.Install)
+        install.place(x= 100, y= 300)
+
+        show = gui.CTkButton(master = self.win, text= "show deps",font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command=self.Show)
+        show.place(x= 100, y= 340)
+
+        funcs = gui.CTkFrame(master=self.win, width=220, height=270, corner_radius= 25, border_width=2)
+        funcs.place(x= 280, y= 120)
+
+        header3 = gui.CTkLabel(master=self.win, text = "Functions", font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        header3.place(x=293, y= 125)
+
+        self.urlEnter = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], width= 200)
+        self.urlEnter.insert(0,'enter url')
+        self.urlEnter.configure(state="disabled")
+        self.urlEnter.place(x= 293, y= 190)
+
+        self.urlVer = gui.IntVar(value=0)
+        urlButt = gui.CTkCheckBox(master=self.win, text = "open url", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.urlVer, command= self.SetUrl)
+        urlButt.place(x=293, y= 160)
+
+
+        self.messageEnter = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], width= 200)
+        self.messageEnter.insert(0,'enter message')
+        self.messageEnter.configure(state="disabled")
+        self.messageEnter.place(x= 293, y= 260)
+
+        self.messageVer = gui.IntVar(value=0)
+        messageButt = gui.CTkCheckBox(master=self.win, text = "open message", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.messageVer, command= self.SetMessage)
+        messageButt.place(x=293, y= 230)
+
+        self.uacVer = gui.IntVar(value=0)
+        uacButt = gui.CTkCheckBox(master=self.win, text = "uac admin", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.uacVer)
+        uacButt.place(x=293, y= 310)
+
+    def SetMessage(self):
+        if self.messageVer.get() == 0:
+            self.messageEnter.configure(state="disabled")
+        else:
+            self.messageEnter.configure(state="normal")
+
+    def SetUrl(self):
+        if self.urlVer.get() == 0:
+            self.urlEnter.configure(state="disabled")
+        else:
+            self.urlEnter.configure(state="normal")
+
+
+    def Show(self):
+        os.startfile(f"{os.getcwd()}/deps/deps.txt")
+    
+    def Install(self):
+        os.startfile(f"{os.getcwd()}/deps/install.bat")
+
     def SelectFile(self):
-        self.file = filedialog.askopenfilename(title="select file.exe",defaultextension=".exe",filetypes=[("executable files",".exe")])
+        self.file = filedialog.askopenfilename(title="select file.exe",defaultextension=".exe",filetypes=[("executable files","*.exe *.bat *.vbs *.cmd")])
         if self.file != '':
             index = self.file.rfind('/')
             text = self.file[index+1:]
@@ -109,20 +170,22 @@ class GUI:
             self.iconVar.set("not selected")
 
     def ThemeChanger(self,buf):
+        geometry = self.win.geometry()
         if buf == "transparent":
             self.win.destroy()
-            GUI('themes/theme.json', self.setMode.get())
+            GUI('themes/theme.json', self.setMode.get(),geometry)
         if buf == "colored":
             self.win.destroy()
-            GUI('themes/theme1.json',self.setMode.get())
+            GUI('themes/theme1.json',self.setMode.get(),geometry)
     
     def ModeChanger(self, buf):
+        geometry = self.win.geometry()
         if buf == "dark":
             self.win.destroy()
-            GUI(self.theme, "dark")
+            GUI(self.theme, "dark",geometry)
         if buf == "light":
             self.win.destroy()
-            GUI(self.theme, "light")
+            GUI(self.theme, "light",geometry)
 
     def Git(self):
         webbrowser.open('https://github.com/Nick-Vinesmoke', new=2)

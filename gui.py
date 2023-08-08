@@ -15,11 +15,18 @@ from tkinter import *
 import customtkinter as gui
 from PIL import ImageTk, Image
 import webbrowser
+from tkinter import filedialog
 #from ctypes import windll, byref, sizeof, c_int
 #import os
 
 class GUI:
-    def __init__(self) -> None:
+    def __init__(self, theme = 'themes/theme.json', mode = 'dark') -> None:
+        self.theme = theme
+        if self.theme == 'themes/theme.json':
+            self.varTheme = 'transparent'
+        else:
+            self.varTheme = 'colored'
+        self.mode = mode
         self.Menu()
 
     def WinConfig(self) -> None:
@@ -27,10 +34,14 @@ class GUI:
         self.win.minsize(500,400)
         self.win.title("VineShield") 
         self.win.resizable(False, False)  
-        self.win.configure(fg_color="#242424")
         self.win.iconbitmap('icon.ico')  
-        gui.set_appearance_mode('dark')
-        gui.set_default_color_theme('transparent-theme.json')
+        gui.set_appearance_mode(self.mode)
+        gui.set_default_color_theme(self.theme)
+        if self.mode == 'dark':
+            self.win.configure(fg_color="#242424")
+        if self.mode == 'light':
+            self.win.configure(fg_color="#F2F2F2")
+
         #self.HWND = windll.user32.GetParent(self.win.winfo_id())
         #barCol = 0x000000FF
         #windll.dwmapi.DwmSetWindowAttribute(self.HWND, 35, byref(c_int(barCol)), sizeof(c_int))
@@ -44,17 +55,74 @@ class GUI:
         disbut = gui.CTkButton(master=self.win,text = '',image=disimage,font=('Arial Rounded MT bold', 18),width = 1, height=40,command=self.Discord,corner_radius = 8)
         disbut.place(x=230, y=60)
 
-        self.setTheme = gui.StringVar(value="dark")
-        themes = gui.CTkComboBox(master=self.win,values=["dark","light"],variable=self.setTheme,command=self.ThemeChanger,height = 40)
-        themes.place(x= 300, y= 5)
+        self.setMode = gui.StringVar(value=self.mode)
+        mode = gui.CTkComboBox(master=self.win,values=["dark","light"],variable=self.setMode,command=self.ModeChanger,height = 40)
+        mode.place(x= 300, y= 5)
+
+        self.setTheme = gui.StringVar(value=self.varTheme)
+        themes = gui.CTkComboBox(master=self.win,values=["transparent","colored"],variable=self.setTheme,command=self.ThemeChanger,height = 40)
+        themes.place(x= 300, y= 60)
+
+        main = gui.CTkFrame(master=self.win, width=260, height=130, corner_radius= 25, border_width=2)
+        main.place(x= 0, y= 120)
+
+        header1 = gui.CTkLabel(master=self.win, text = "Main", font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        header1.place(x= 13, y= 125)
+
+        self.fileVar = gui.StringVar(value="select file")
+        fileSelecter = gui.CTkButton(master=self.win, textvariable=self.fileVar,font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command= self.SelectFile)
+        fileSelecter.place(x= 100, y= 130)
+
+        self.iconVar = gui.StringVar(value="select icon")
+        iconSelecter = gui.CTkButton(master=self.win, textvariable=self.iconVar,font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command= self.SelectIcon)
+        iconSelecter.place(x= 100, y= 170)
+
+        fileName = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], placeholder_text= 'output file name')
+        fileName.place(x= 100, y= 210)
+
+    def SelectFile(self):
+        self.file = filedialog.askopenfilename(title="select file.exe",defaultextension=".exe",filetypes=[("executable files",".exe")])
+        if self.file != '':
+            index = self.file.rfind('/')
+            text = self.file[index+1:]
+            if len(text) < 15:
+                self.fileVar.set(text)
+            else:
+                text = text[:11]
+                text+= '...'
+                self.fileVar.set(text)
+        else:
+            self.fileVar.set("not selected")
     
-    def ThemeChanger(self, buf):
+    def SelectIcon(self):
+        self.icon = filedialog.askopenfilename(title="select file.ico",defaultextension=".ico",filetypes=[("icon files",".ico")])
+        if self.icon != '':
+            index = self.icon.rfind('/')
+            text = self.icon[index+1:]
+            if len(text) < 15:
+                self.iconVar.set(text)
+            else:
+                text = text[:11]
+                text+= '...'
+                self.iconVar.set(text)
+        else:
+            self.iconVar.set("not selected")
+
+    def ThemeChanger(self,buf):
+        if buf == "transparent":
+            self.win.destroy()
+            GUI('themes/theme.json', self.setMode.get())
+        if buf == "colored":
+            self.win.destroy()
+            GUI('themes/theme1.json',self.setMode.get())
+    
+    def ModeChanger(self, buf):
         if buf == "dark":
-            gui.set_appearance_mode('dark')
-            self.win.configure(fg_color="#242424")
+            self.win.destroy()
+            GUI(self.theme, "dark")
         if buf == "light":
-            gui.set_appearance_mode('light')
-            self.win.configure(fg_color="#EBEBEB")
+            self.win.destroy()
+            GUI(self.theme, "light")
 
     def Git(self):
         webbrowser.open('https://github.com/Nick-Vinesmoke', new=2)
@@ -65,7 +133,6 @@ class GUI:
     def Menu(self) -> None:
 
         self.win = gui.CTk()
-
         self.WinConfig()
         self.Widgets()
 

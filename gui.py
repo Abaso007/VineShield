@@ -135,13 +135,18 @@ class GUI:
 
 
     def ObfuscateWin(self):
-        self.win2 = gui.CTkToplevel(self.win)
-        self.win2.geometry("320x150+680+380")
-        self.win2.title("Info")  
-        self.win2.resizable(False, False)  
-        self.win2.iconbitmap('img_files/icon.ico')  
-        gui.set_appearance_mode(self.mode)
-        gui.set_default_color_theme(self.theme)
+        frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
+        frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
+
+        self.loadText = gui.StringVar(value='starting...')
+        header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
+
+
+        self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
+        self.progressbar.set(0)
+        self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
+
 
     def Obfuscate(self):
         pass

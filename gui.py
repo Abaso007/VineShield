@@ -16,6 +16,8 @@ import customtkinter as gui
 from PIL import ImageTk, Image
 import webbrowser
 from tkinter import filedialog
+import asyncio
+from cryptography.fernet import Fernet
 #from ctypes import windll, byref, sizeof, c_int
 import os
 
@@ -78,8 +80,8 @@ class GUI:
         iconSelecter = gui.CTkButton(master=self.win, textvariable=self.iconVar,font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command= self.SelectIcon)
         iconSelecter.place(x= 100, y= 170)
 
-        fileName = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], placeholder_text= 'output file name')
-        fileName.place(x= 100, y= 210)
+        self.fileName = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], placeholder_text= 'output file name')
+        self.fileName.place(x= 100, y= 210)
 
         deps = gui.CTkFrame(master=self.win, width=260, height=130, corner_radius= 25, border_width=2)
         deps.place(x= 0, y= 260)
@@ -135,21 +137,46 @@ class GUI:
 
 
     def ObfuscateWin(self):
-        frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
-        frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
+        self.frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
+        self.frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
 
         self.loadText = gui.StringVar(value='starting...')
-        header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
-        header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
+        self.header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        self.header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
 
 
         self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
         self.progressbar.set(0)
         self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
 
+        asyncio.run(self.Obfuscate())
 
-    def Obfuscate(self):
-        pass
+
+    async def Obfuscate(self):
+        try:
+            if self.fileName.get() == '' or self.file == '':
+                print(0/0)
+            self.loadText.set('keying...')
+            key = Fernet.generate_key()
+            f = Fernet(key)
+            self.progressbar.set(0.01)
+            self.loadText.set('crypting...')
+            with open(self.file, 'rb') as file:
+                file_data = file.read()
+            encrypted_data = f.encrypt(file_data) 
+            new_name = f.encrypt(self.fileName.get())
+            with open(f"enc_{self.fileName.get()}", 'wb') as file:
+                file.write(encrypted_data)
+            self.progressbar.set(0.1)
+        except:
+            self.progressbar.set(1)
+            self.loadText.set("Error")
+            self.frame.after(3000,  self.frame.destroy)
+            self.progressbar.after(3000,  self.progressbar.destroy)
+            self.header.after(3000,  self.header.destroy)
+
+
+        self.fileContext = ''''''
 
     def SetMessage(self):
         if self.messageVer.get() == 0:

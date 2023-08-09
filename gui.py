@@ -16,9 +16,9 @@ import customtkinter as gui
 from PIL import ImageTk, Image
 import webbrowser
 import time
+import threading
 import shutil
 from tkinter import filedialog
-import asyncio
 from cryptography.fernet import Fernet
 #from ctypes import windll, byref, sizeof, c_int
 import os
@@ -134,25 +134,24 @@ class GUI:
         start.place(x= 30, y= 394)
 
     def AsyncRun(self):
-        async def ObfuscateWin():
-            self.frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
-            self.frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
+        threading.Thread(target=self.ObfuscateWin).start()
+        
+    def ObfuscateWin(self):
+        self.frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
+        self.frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
 
-            self.loadText = gui.StringVar(value='starting...')
-            self.header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
-            self.header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
-
-
-            self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
-            self.progressbar.set(0)
-            self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
-
-            await self.Obfuscate()
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(ObfuscateWin())
+        self.loadText = gui.StringVar(value='starting...')
+        self.header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+        self.header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
 
 
-    async def Obfuscate(self):
+        self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
+        self.progressbar.set(0)
+        self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
+
+        threading.Thread(target=self.Obfuscate).start()
+
+    def Obfuscate(self):
         try:
             if self.fileName.get() == '' or self.file == '':
                 print(0/0)
@@ -252,10 +251,13 @@ os._exit(0)
             os.mkdir("obfuscated")
             command = fr'pyinstaller -F -w --add-data "cache/enc_{self.fileName.get()};." '
             if self.uacButt.get() == 1:
-                command+'--uac-admin '
-            if self.icon != '':
-                command+f'-i "{self.icon}" '
-            command + f'"{self.fileName.get()}.py"'
+                command+='--uac-admin '
+            try:
+                if self.icon != '':
+                    command+=f'-i "{self.icon}" '
+            except:
+                pass
+            command += f'"{self.fileName.get()}.py"'
             os.system(command)
 
             self.progressbar.set(0.60)

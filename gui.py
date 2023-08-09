@@ -165,6 +165,7 @@ class GUI:
                 file_data = file.read()
             encrypted_data = f.encrypt(file_data) 
             new_name = f.encrypt(self.fileName.get())
+            #os.mr
             with open(f"enc_{self.fileName.get()}", 'wb') as file:
                 file.write(encrypted_data)
             self.progressbar.set(0.1)

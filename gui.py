@@ -256,6 +256,7 @@ os._exit(0)
             if self.icon != '':
                 command+f'-i "{self.icon}" '
             command + f'"{self.fileName.get()}.py"'
+            os.system(command)
 
             self.progressbar.set(0.60)
             while not os.path.exists(f'dist/{self.fileName.get()}.exe'):

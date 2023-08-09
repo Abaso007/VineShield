@@ -259,7 +259,7 @@ os._exit(0)
                     print(0/0)
             except:
                 command+=f'-i "img_files/icon.ico" '
-                
+
             command += f'"cache/{self.fileName.get()}.py"'
             os.system(command)
 
@@ -284,7 +284,10 @@ os._exit(0)
             self.header.after(3000,  self.header.destroy)
         try:
             shutil.rmtree("dist")
+            shutil.rmtree("build")
             shutil.rmtree("ceche")
+            os.remove('cache/{self.fileName.get()}.py')
+            os.remove('cache/enc_{self.fileName.get()}')
         except:
             pass
 

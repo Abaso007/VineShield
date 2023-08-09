@@ -2,6 +2,7 @@
 ![logo](Images/logo.png)
 
  🛡Obfuscation tool for all executing files and scripts written on python 3
+ 
  ⭐Please, star this repo if it was helpful⭐
 
  <p>

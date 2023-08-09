@@ -268,7 +268,7 @@ os._exit(0)
             except:
                 command+=f'-i "img_files/icon.ico" '
 
-            command += f'"cache/{self.fileName.get()}.py"'
+            command += f'"cache/{self.fileName.get()}.py"\n exit'
             os.system(command)
 
             self.progressbar.set(0.60)

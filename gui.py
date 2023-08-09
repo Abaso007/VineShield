@@ -292,11 +292,12 @@ os._exit(0)
             self.progressbar.after(3000,  self.progressbar.destroy)
             self.header.after(3000,  self.header.destroy)
         try:
-            shutil.rmtree("dist")
-            shutil.rmtree("build")
-            shutil.rmtree("ceche")
-            os.remove('cache/{self.fileName.get()}.py')
-            os.remove('cache/enc_{self.fileName.get()}')
+            shutil.rmtree("dist", ignore_errors=True)
+            shutil.rmtree("build", ignore_errors=True)
+            shutil.rmtree("ceche", ignore_errors=True)
+            os.remove(f'enc_{self.fileName.get()}.spec')
+            os.remove(f'cache/{self.fileName.get()}.py')
+            os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass
 

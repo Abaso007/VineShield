@@ -1,1 +1,1 @@
-pyinstaller -F -i "icon.ico" "VineShield.py"
+pyarmor-7 pack -e "--noconfirm --onefile --windowed --icon \"\icon.ico\" --version-file \"version.py\" --add-data \"C:\\Users\\null\\AppData\\Local\\Programs\\Python\\Python310\\Lib\\site-packages\\customtkinter;customtkinter/\" --add-data \"crypt.py;crypt.py/\" --add-data \"gui.py;gui.py/\"" VineShield.py

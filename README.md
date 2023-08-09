@@ -1,14 +1,9 @@
 <a id ="up"></a>
 ![logo](Images/logo.png)
-```
-                       __      __ _                _____  _      _        _      _ 
-                       \ \    / /(_)              / ____|| |    (_)      | |    | |
-                        \ \  / /  _  _ __    ___ | (___  | |__   _   ___ | |  __| |
-                         \ \/ /  | || '_ \  / _ \ \___ \ | '_ \ | | / _ \| | / _` |
-                          \  /   | || | | ||  __/ ____) || | | || ||  __/| || (_| |
-                           \/    |_||_| |_| \___||_____/ |_| |_||_| \___||_| \__,_|
-```
+
  🛡Obfuscation tool for all executing files and scripts written on python 3
+ ⭐Please, star this repo if it was helpful⭐
+
  <p>
  <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue">
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
@@ -36,8 +31,7 @@
 
  ### 🛠Building
 So firstly you need to download [python](https://www.python.org/downloads/).
-Install dependencies: `pip install cryptography` and in prog `$dependencies`
-py to exe `pyinstaller -i"icon.ico" -F "VineShield.py"`
+Install dependencies: `pip install -r /path/to/requirements.txt` and run `.py to .exe.bat`
 
 ---
 ### 💰 Donate

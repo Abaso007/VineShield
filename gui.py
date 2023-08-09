@@ -25,6 +25,10 @@ import os
 
 class GUI:
     def __init__(self, theme = 'themes/theme.json', mode = 'dark', geometry = "500x429+560+240") -> None:
+        try:
+            shutil.rmtree("ceche")
+        except:
+            pass
         self.geometry = geometry
         self.theme = theme
         if self.theme == 'themes/theme.json':
@@ -134,6 +138,10 @@ class GUI:
         start.place(x= 30, y= 394)
 
     def AsyncRun(self):
+        try:
+            shutil.rmtree("ceche")
+        except:
+            pass
         threading.Thread(target=self.ObfuscateWin).start()
         
     def ObfuscateWin(self):
@@ -268,13 +276,14 @@ os._exit(0)
                 pass
             self.progressbar.set(0.90)
             if os.path.exists(f'dist/{self.fileName.get()}.exe'):
+                self.loadText.set('ending...')
                 time.sleep(10)
                 shutil.move(f'dist/{self.fileName.get()}.exe', "obfuscated/")
             self.progressbar.set(1)
-            self.loadText.set('ending...')
-            self.frame.after(1000,  self.frame.destroy)
-            self.progressbar.after(1000,  self.progressbar.destroy)
-            self.header.after(1000,  self.header.destroy)
+            self.loadText.set('done')
+            self.frame.after(3000,  self.frame.destroy)
+            self.progressbar.after(3000,  self.progressbar.destroy)
+            self.header.after(3000,  self.header.destroy)
         except Exception as e:
             self.progressbar.set(1)
             self.loadText.set("Error")

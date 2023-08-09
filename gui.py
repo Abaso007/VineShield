@@ -255,9 +255,12 @@ os._exit(0)
             try:
                 if self.icon != '':
                     command+=f'-i "{self.icon}" '
+                else:
+                    print(0/0)
             except:
-                pass
-            command += f'"{self.fileName.get()}.py"'
+                command+=f'-i "img_files/icon.ico" '
+                
+            command += f'"cache/{self.fileName.get()}.py"'
             os.system(command)
 
             self.progressbar.set(0.60)

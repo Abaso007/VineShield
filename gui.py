@@ -20,7 +20,7 @@ from tkinter import filedialog
 import os
 
 class GUI:
-    def __init__(self, theme = 'themes/theme.json', mode = 'dark', geometry = "500x600+560+240") -> None:
+    def __init__(self, theme = 'themes/theme.json', mode = 'dark', geometry = "500x429+560+240") -> None:
         self.geometry = geometry
         self.theme = theme
         if self.theme == 'themes/theme.json':
@@ -35,7 +35,7 @@ class GUI:
         self.win.minsize(500,400)
         self.win.title("VineShield") 
         self.win.resizable(False, False)  
-        self.win.iconbitmap('icon.ico')  
+        self.win.iconbitmap('img_files/icon.ico')  
         gui.set_appearance_mode(self.mode)
         gui.set_default_color_theme(self.theme)
         if self.mode == 'dark':
@@ -93,7 +93,7 @@ class GUI:
         show = gui.CTkButton(master = self.win, text= "show deps",font=('Arial Rounded MT bold', 18), corner_radius = 8, bg_color= ['#E5E5E5','#212121'], command=self.Show)
         show.place(x= 100, y= 340)
 
-        funcs = gui.CTkFrame(master=self.win, width=220, height=270, corner_radius= 25, border_width=2)
+        funcs = gui.CTkFrame(master=self.win, width=220, height=310, corner_radius= 25, border_width=2)
         funcs.place(x= 280, y= 120)
 
         header3 = gui.CTkLabel(master=self.win, text = "Functions", font=('Arial Rounded MT bold', 24),bg_color= ['#E5E5E5','#212121'])
@@ -121,6 +121,30 @@ class GUI:
         self.uacVer = gui.IntVar(value=0)
         uacButt = gui.CTkCheckBox(master=self.win, text = "uac admin", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.uacVer)
         uacButt.place(x=293, y= 310)
+
+        self.debugVer = gui.IntVar(value=0)
+        debugButt = gui.CTkCheckBox(master=self.win, text = "anti-debug", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.debugVer)
+        debugButt.place(x=293, y= 350)
+
+        self.bypassVer = gui.IntVar(value=0)
+        bypassButt = gui.CTkCheckBox(master=self.win, text = "av bypass", font=('Arial Rounded MT bold', 18),bg_color= ['#E5E5E5','#212121'], variable= self.bypassVer)
+        bypassButt.place(x=293, y= 390)
+
+        start = gui.CTkButton(master = self.win, text= "obfuscate",font=('Arial Rounded MT bold', 24), corner_radius = 8, width= 200, command=self.ObfuscateWin)
+        start.place(x= 30, y= 394)
+
+
+    def ObfuscateWin(self):
+        self.win2 = gui.CTkToplevel(self.win)
+        self.win2.geometry("320x150+680+380")
+        self.win2.title("Info")  
+        self.win2.resizable(False, False)  
+        self.win2.iconbitmap('img_files/icon.ico')  
+        gui.set_appearance_mode(self.mode)
+        gui.set_default_color_theme(self.theme)
+
+    def Obfuscate(self):
+        pass
 
     def SetMessage(self):
         if self.messageVer.get() == 0:

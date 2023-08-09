@@ -257,12 +257,18 @@ os._exit(0)
                 command+f'-i "{self.icon}" '
             command + f'"{self.fileName.get()}.py"'
 
+            self.progressbar.set(0.60)
             while not os.path.exists(f'dist/{self.fileName.get()}.exe'):
                 pass
+            self.progressbar.set(0.90)
             if os.path.exists(f'dist/{self.fileName.get()}.exe'):
                 time.sleep(10)
                 shutil.move(f'dist/{self.fileName.get()}.exe', "obfuscated/")
-
+            self.progressbar.set(1)
+            self.loadText.set('ending...')
+            self.frame.after(1000,  self.frame.destroy)
+            self.progressbar.after(1000,  self.progressbar.destroy)
+            self.header.after(1000,  self.header.destroy)
         except Exception as e:
             self.progressbar.set(1)
             self.loadText.set("Error")

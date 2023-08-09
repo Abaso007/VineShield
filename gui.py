@@ -25,10 +25,6 @@ import os
 
 class GUI:
     def __init__(self, theme = 'themes/theme.json', mode = 'dark', geometry = "500x429+560+240") -> None:
-        try:
-            shutil.rmtree("ceche")
-        except:
-            pass
         self.geometry = geometry
         self.theme = theme
         if self.theme == 'themes/theme.json':
@@ -139,7 +135,15 @@ class GUI:
 
     def AsyncRun(self):
         try:
-            shutil.rmtree("ceche")
+            shutil.rmtree("dist", ignore_errors=True)
+            shutil.rmtree("build", ignore_errors=True)
+            shutil.rmtree("ceche", ignore_errors=True)
+        except:
+            pass
+        try:
+            os.remove(f'{self.fileName.get()}.spec')
+            os.remove(f'cache/{self.fileName.get()}.py')
+            os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass
         threading.Thread(target=self.ObfuscateWin).start()
@@ -173,7 +177,10 @@ class GUI:
                 file_data = file.read()
             encrypted_data = f.encrypt(file_data) 
             new_name = f.encrypt(self.fileName.get().encode())
-            os.mkdir("cache")
+            try:
+                os.mkdir("cache")
+            except:
+                pass
             with open(f"cache/enc_{self.fileName.get()}", 'wb') as file:
                 file.write(encrypted_data)
             self.progressbar.set(0.1)
@@ -256,7 +263,10 @@ os._exit(0)
             self.progressbar.set(0.50)
             
             self.loadText.set('compiling...')
-            os.mkdir("obfuscated")
+            try:
+                os.mkdir("obfuscated")
+            except:
+                pass
             command = fr'pyinstaller -F -w --add-data "cache/enc_{self.fileName.get()};." '
             if self.uacButt.get() == 1:
                 command+='--uac-admin '
@@ -295,7 +305,10 @@ os._exit(0)
             shutil.rmtree("dist", ignore_errors=True)
             shutil.rmtree("build", ignore_errors=True)
             shutil.rmtree("ceche", ignore_errors=True)
-            os.remove(f'enc_{self.fileName.get()}.spec')
+        except:
+            pass
+        try:
+            os.remove(f'{self.fileName.get()}.spec')
             os.remove(f'cache/{self.fileName.get()}.py')
             os.remove(f'cache/enc_{self.fileName.get()}')
         except:

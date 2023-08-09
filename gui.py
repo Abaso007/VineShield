@@ -15,6 +15,8 @@ from tkinter import *
 import customtkinter as gui
 from PIL import ImageTk, Image
 import webbrowser
+import time
+import shutil
 from tkinter import filedialog
 import asyncio
 from cryptography.fernet import Fernet
@@ -246,6 +248,21 @@ os._exit(0)
 
             self.progressbar.set(0.50)
             
+            self.loadText.set('compiling...')
+            os.mkdir("obfuscated")
+            command = fr'pyinstaller -F -w --add-data "cache/enc_{self.fileName.get()};." '
+            if self.uacButt.get() == 1:
+                command+'--uac-admin '
+            if self.icon != '':
+                command+f'-i "{self.icon}" '
+            command + f'"{self.fileName.get()}.py"'
+
+            while not os.path.exists(f'dist/{self.fileName.get()}.exe'):
+                pass
+            if os.path.exists(f'dist/{self.fileName.get()}.exe'):
+                time.sleep(10)
+                shutil.move(f'dist/{self.fileName.get()}.exe', "obfuscated/")
+
         except Exception as e:
             self.progressbar.set(1)
             self.loadText.set("Error")
@@ -253,7 +270,11 @@ os._exit(0)
             self.frame.after(3000,  self.frame.destroy)
             self.progressbar.after(3000,  self.progressbar.destroy)
             self.header.after(3000,  self.header.destroy)
-
+        try:
+            shutil.rmtree("dist")
+            shutil.rmtree("ceche")
+        except:
+            pass
 
     def SetMessage(self):
         if self.messageButt.get() == 0:

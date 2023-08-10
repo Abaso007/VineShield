@@ -134,15 +134,19 @@ class GUI:
         start.place(x= 30, y= 394)
 
     def AsyncRun(self):
+        name = self.fileName.get().replace(" ","_")
+        self.fileName.delete(0,'end')
+        self.fileName.insert(0,name)
+        
         try:
-            shutil.rmtree("dist", ignore_errors=True)
-            shutil.rmtree("build", ignore_errors=True)
+            shutil.rmtree("cache/dist", ignore_errors=True)
+            shutil.rmtree("cache/build", ignore_errors=True)
             shutil.rmtree("ceche", ignore_errors=True)
         except:
             pass
         try:
-            os.remove(f'{self.fileName.get()}.spec')
             os.remove(f'cache/{self.fileName.get()}.py')
+            os.remove(f'cache/icon.ico')
             os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass
@@ -246,9 +250,12 @@ with open(sa, 'rb') as file:
 
 decrypted_data = f.decrypt(encrypted_data)
 
-with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe", 'wb') as file:
-    file.write(decrypted_data)
-subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe")
+try:
+    with open(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe", 'wb') as file:
+        file.write(decrypted_data)
+    subprocess.call(r"C:\Users\\" + os.environ.get('USERNAME') + r"\AppData\Local\Temp\ceche_" + name+".exe")
+except:
+    pass
 
 os._exit(0)
             '''
@@ -267,28 +274,36 @@ os._exit(0)
                 os.mkdir("obfuscated")
             except:
                 pass
-            command = fr'pyinstaller -F -w --add-data "cache/enc_{self.fileName.get()};." '
+
+            command = f'pyarmor-7 pack -e \"--noconfirm --onefile --windowed '
             if self.uacButt.get() == 1:
                 command+='--uac-admin '
             try:
                 if self.icon != '':
-                    command+=f'-i "{self.icon}" '
+                    shutil.copy(self.icon, "cache/icon.ico")
                 else:
                     print(0/0)
             except:
-                command+=f'-i "img_files/icon.ico" '
+                shutil.copy('img_files/icon.ico', "cache/icon.ico")
 
-            command += f'"cache/{self.fileName.get()}.py"\n exit'
+            command += f'--icon \"icon.ico\" --add-data \"enc_{self.fileName.get()};./\" \" {self.fileName.get()}.py\nexit'
+            os.chdir('cache/')
             os.system(command)
+            path = os.path.abspath(__path__)
+            print(path)
+            path = path.replace('/cache','')
+            print(path)
+
+            os.chdir(path)
 
             self.progressbar.set(0.60)
-            while not os.path.exists(f'dist/{self.fileName.get()}.exe'):
+            while not os.path.exists(f'cache/dist/{self.fileName.get()}.exe'):
                 pass
             self.progressbar.set(0.90)
-            if os.path.exists(f'dist/{self.fileName.get()}.exe'):
+            if os.path.exists(f'cache/dist/{self.fileName.get()}.exe'):
                 self.loadText.set('ending...')
                 time.sleep(10)
-                shutil.move(f'dist/{self.fileName.get()}.exe', "obfuscated/")
+                shutil.move(f'cache/dist/{self.fileName.get()}.exe', "obfuscated/")
             self.progressbar.set(1)
             self.loadText.set('done')
             self.frame.after(3000,  self.frame.destroy)
@@ -302,14 +317,14 @@ os._exit(0)
             self.progressbar.after(3000,  self.progressbar.destroy)
             self.header.after(3000,  self.header.destroy)
         try:
-            shutil.rmtree("dist", ignore_errors=True)
-            shutil.rmtree("build", ignore_errors=True)
+            shutil.rmtree("cache/dist", ignore_errors=True)
+            shutil.rmtree("cache/build", ignore_errors=True)
             shutil.rmtree("ceche", ignore_errors=True)
         except:
             pass
         try:
-            os.remove(f'{self.fileName.get()}.spec')
             os.remove(f'cache/{self.fileName.get()}.py')
+            os.remove(f'cache/icon.ico')
             os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass

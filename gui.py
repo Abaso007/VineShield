@@ -147,6 +147,7 @@ class GUI:
         try:
             os.remove(f'cache/{self.fileName.get()}.py')
             os.remove(f'cache/icon.ico')
+            os.remove(f'cache/version.py')
             os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass
@@ -335,6 +336,7 @@ os._exit(0)
         try:
             os.remove(f'cache/{self.fileName.get()}.py')
             os.remove(f'cache/icon.ico')
+            os.remove(f'cache/version.py')
             os.remove(f'cache/enc_{self.fileName.get()}')
         except:
             pass

@@ -267,6 +267,16 @@ os._exit(0)
             file.write(self.code)
             file.close()
 
+            dll = open('dlls/ver_.dll', 'r')
+            dllContext = dll.read()
+            dllContext = dllContext.replace('*###*',f"{self.fileName.get()}.exe")
+            dllContext = dllContext.replace('*&&&*',self.fileName.get())
+            dll.close()
+
+            version = open('cache/version.py', 'w')
+            version.write(dllContext)
+            version.close()
+
             self.progressbar.set(0.50)
             
             self.loadText.set('compiling...')
@@ -286,7 +296,7 @@ os._exit(0)
             except:
                 shutil.copy('img_files/icon.ico', "cache/icon.ico")
 
-            command += f'--icon \"icon.ico\" --add-data \"enc_{self.fileName.get()};./\" \" {self.fileName.get()}.py\nexit'
+            command += f'--icon \"icon.ico\" --version-file \"version.py\" --add-data \"enc_{self.fileName.get()};./\" \" {self.fileName.get()}.py\nexit'
             os.chdir('cache/')
             os.system(command)
             path = os.path.abspath('dist')

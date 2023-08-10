@@ -1,4 +1,13 @@
 --------------------------------------
+10.08.2023
+v2.0.0.5
+↓changes↓
+◦ fixed bugs
+◦ fixed compiling
+◦ added version
+◦ two-stage obfuscation
+◦ fixed bugs in an obfuscated program
+--------------------------------------
 09.08.2023
 v2.0.0.0
 ↓changes↓

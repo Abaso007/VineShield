@@ -289,9 +289,9 @@ os._exit(0)
             command += f'--icon \"icon.ico\" --add-data \"enc_{self.fileName.get()};./\" \" {self.fileName.get()}.py\nexit'
             os.chdir('cache/')
             os.system(command)
-            path = os.path.abspath(__path__)
+            path = os.path.abspath('dist')
             print(path)
-            path = path.replace('/cache','')
+            path = path.replace('\\cache\\dist','')
             print(path)
 
             os.chdir(path)

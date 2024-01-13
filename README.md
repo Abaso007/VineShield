@@ -36,16 +36,15 @@ Install dependencies: `pip install -r /path/to/requirements.txt` and run `.py to
 
 ---
 ### 💰 Donate
-   <a href="https://www.donationalerts.com/r/nick_vinesmoke"><img src="https://img.shields.io/badge/Donationalerts-F37623?style=for-the-badge&logo=Cash%20App&logoColor=white"></a>
-   <a href="https://patreon.com/NickVinesmoke"><img src="https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white"></a>
-   
+<a href="https://www.buymeacoffee.com/nick_vinesmoke"><img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black"></a>
+
   BTC: <code>bc1qfe46xsewu00yhl0llzaxhz9re03y4al0w9p3v2</code>
   
   ETH: <code>0xeeA063838950D191881EdF0E31b4699B73aD20Ac</code>
   
   XMR: <code>48jeXS4GGpEJ2Kswn3zRXc3wBqK2s9ojJEohE47KW9ZMPdtnCGTTJGjc7iQpNWSrmmZCCLsj4WDNVa88Mb6kTeJhJWbtbmo</code>
 
-  USDT: <code>0xeeA063838950D191881EdF0E31b4699B73aD20Ac</code>
+  USDT(ethereum network): <code>0xeeA063838950D191881EdF0E31b4699B73aD20Ac</code>
 
   LTC: <code>LWyarn3cnVyVahgjDpr4uokCFQbq39KDuc</code>
 
